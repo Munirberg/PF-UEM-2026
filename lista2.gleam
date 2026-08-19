@@ -1,22 +1,28 @@
 import gleam/int
 import gleam/string
 
+//ALUNO MUNIR BERG - RA145103
+// questao 11
 pub fn area_retangulo(largura, altura) {
   largura *. altura
 }
 
+// questao 12
 pub fn produto_anterior_posterior(n) {
   n * { n + 1 } * { n - 1 }
 }
 
+// questao 13
 pub fn eh_par(n) {
   n % 2 == 0
 }
 
+// questao 14
 pub fn tem_tres_digitos(n) {
   n >= 100 && n <= 99
 }
 
+// questao 15
 pub fn maximo(n1, n2) {
   case n1 > n2 {
     True -> n1
@@ -24,6 +30,7 @@ pub fn maximo(n1, n2) {
   }
 }
 
+// questao 16
 pub fn ordem(x, y, z) {
   case x > y && y > z {
     True -> "Decrescente"
@@ -35,12 +42,15 @@ pub fn ordem(x, y, z) {
   }
 }
 
+//questao 17
 pub fn so_primeira_maiuscula(x) {
   let maiuscula = string.uppercase(string.slice(x, 0, 1))
   let minusculas = string.lowercase(string.slice(x, 1, string.length(x) - 1))
   maiuscula <> minusculas
 }
 
+
+//questao 18
 pub fn a_plus_abs_b(a, b) {
   case b > 0 {
     True -> int.add
@@ -52,6 +62,8 @@ pub fn a_plus_abs_b(a, b) {
 // se b for menor, ou seja negativo, ele realiza a subtração de -b com a, basicamente a soma de a e b tambem
 
 
+
+// questao 19
 fn p() {
 p()
 }

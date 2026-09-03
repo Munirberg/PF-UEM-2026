@@ -1,3 +1,5 @@
+/////
+
 pub type Direcao {
   Norte
   Sul
@@ -80,3 +82,26 @@ pub fn pode(e: Elevador, p: Elevador) -> Bool {
 }
 
 // 12 A)
+pub type Megapixel {
+  Megapixel(altura: Int, largura: Int)
+}
+
+//13 A)
+pub type Figuras {
+  Retangulo(altura: Float, largura: Float)
+  Circulo(raio: Float)
+}
+
+pub fn descobre_figura(fig: Figuras) {
+  case fig {
+    Retangulo(_, _) -> fig.altura *. fig.largura
+    Circulo(_) -> 3.14 *. fig.raio
+  }
+}
+
+pub fn cabe(fig1: Figuras, fig2: Figuras){
+  case fig1, fig2{
+    Retangulo(_, _), Retangulo(_, _) -> fig1. altura <= fig2.altura && fig1.largura <= fig1.altura
+    Circulo(_), Retangulo(_, _) -> case 
+  }
+}

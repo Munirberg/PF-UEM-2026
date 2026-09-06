@@ -200,4 +200,139 @@ pub fn calcula_media(notas: Boletim) -> Bool {
 }
 
 // 17)
+pub type Bandeira {
+  Verde
+  Amarela
+  Vermelhapat1
+  Vermelhapat2
+}
 
+pub fn sistema_bandeira(kwh: Float, bandeira: Bandeira, tarifa: Float) -> Float {
+  case bandeira {
+    Verde -> kwh *. tarifa
+    Amarela -> kwh *. { tarifa +. 0.01874 }
+    Vermelhapat1 -> kwh *. { tarifa +. 0.03971 }
+    Vermelhapat2 -> kwh *. { tarifa +. 0.09492 }
+  }
+}
+
+// 18)
+pub type Jokenpo {
+  Tesoura(nome: String)
+  Papel(nome: String)
+  Pedra(nome: String)
+}
+
+pub fn partida(jogador1: Jokenpo, jogador2: Jokenpo) -> String {
+  case jogador1, jogador2 {
+    Tesoura(_), Tesoura(_) -> "Empate!"
+    Tesoura(nome), Papel(_) -> nome <> " ganhou!"
+    Tesoura(_), Pedra(nome) -> nome <> " ganhou!"
+    Pedra(_), Pedra(_) -> "Empate!"
+    Pedra(nome), Tesoura(_) -> nome <> " ganhou!"
+    Pedra(_), Papel(nome) -> nome <> " ganhou!"
+    Papel(_), Papel(_) -> "Empate!"
+    Papel(nome), Pedra(_) -> nome <> " ganhou!"
+    Papel(_), Tesoura(nome) -> nome <> " ganhou!"
+  }
+}
+
+// 19)
+pub type Time {
+  Time(pontos: Int, vitorias: Int, saldo_gols: Int)
+}
+
+pub fn partidafut(time: Time, gols_feitos: Int, gols_sofridos: Int) -> Time {
+  case gols_feitos > gols_sofridos {
+    True ->
+      Time(
+        time.pontos + 3,
+        time.vitorias + 1,
+        time.saldo_gols + gols_feitos - gols_sofridos,
+      )
+    False ->
+      case gols_feitos == gols_sofridos {
+        True ->
+          Time(
+            time.pontos + 1,
+            time.vitorias,
+            time.saldo_gols + gols_feitos - gols_sofridos,
+          )
+        False ->
+          Time(
+            time.pontos,
+            time.vitorias,
+            time.saldo_gols + gols_feitos - gols_sofridos,
+          )
+      }
+  }
+}
+
+// 20) A e B:
+pub type Tempo {
+  Tempo(horas: Int, minutos: Int, segundos: Int)
+}
+
+pub fn transformador(segundos: Int) -> Tempo {
+  let horas = segundos / 3600
+  let resto = segundos % 3600
+  let minutos = resto / 60
+  let segundos = resto % 60
+  let tempo = Tempo(horas, minutos, segundos)
+  tempo
+}
+
+pub fn conversor(tempo: Tempo) {
+  let str_horas = case tempo.horas != 0 {
+    True -> int.to_string(tempo.horas) <> " horas,"
+    False -> ""
+  }
+  let str_minutos = case tempo.minutos != 0 {
+    True -> int.to_string(tempo.minutos) <> " minutos"
+    False -> ""
+  }
+  let str_segundos = case tempo.segundos != 0 {
+    True -> int.to_string(tempo.segundos) <> " segundos"
+    False -> ""
+  }
+
+  "O programa ficou aberto por: " <> str_horas <> str_minutos <> str_segundos
+}
+
+// 21
+// aproveitei pra reutilizar o direcao do exercicio do comeco da lista
+
+pub type Personagem {
+  Personagem(linha: Int, coluna: Int, direcao: Direcao)
+}
+
+pub fn max_casas(perso: Personagem) -> Int {
+  case perso.direcao {
+    Norte -> 10 - perso.linha
+    Sul -> perso.linha - 1
+    Leste -> 10 - perso.coluna
+    Oeste -> perso.coluna - 1
+  }
+}
+
+// 22 A)
+pub type Mouse {
+  Mouse(linha: Int, coluna: Int)
+}
+
+pub type Janela {
+  Janela(topo: Int, esquerda: Int, largura: Int, altura: Int)
+}
+
+pub fn clique_na_janela(janela: Janela, clique: Mouse) -> Bool {
+  let coluna_jan =
+    clique.coluna >= janela.esquerda
+    && clique.coluna < janela.esquerda + janela.largura
+
+  let linha_janela =
+    clique.linha >= janela.topo && clique.linha < janela.topo + janela.altura
+
+  coluna_jan && linha_janela
+}
+
+// 23)

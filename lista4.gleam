@@ -10,6 +10,7 @@ pub type Direcao {
 }
 
 // 10 A)
+//Recebe uma direção da rosa dos ventos e retorna o contrário dela
 pub fn contrario(d: Direcao) {
   case d {
     Norte -> "Sul"
@@ -20,6 +21,7 @@ pub fn contrario(d: Direcao) {
 }
 
 // B)
+// Recebe uma direção da rosa dos ventos e retorna a direção 90 graus a direita em relacao a ela
 pub fn noventa(d: Direcao) {
   case d {
     Norte -> "Leste"
@@ -30,6 +32,8 @@ pub fn noventa(d: Direcao) {
 }
 
 /// C) 
+// Recebe uma direção da rosa dos ventos e retorna a direção 90 graus a esquerda em relacao a ela
+
 pub fn noventa_anti(d: Direcao) {
   case d {
     Norte -> "Oeste"
@@ -48,6 +52,7 @@ pub type Elevador {
   Descendo
 }
 
+// Recebe o andar atual e o próximo de um elevador, falando se sua próxima condição é subindo, descendo ou parado
 pub fn situacao(att: Int, novo: Int) -> Elevador {
   case att == novo {
     True -> Parado
@@ -60,6 +65,8 @@ pub fn situacao(att: Int, novo: Int) -> Elevador {
 }
 
 // B)
+// Verifica se um elevador pode subir ou descer pra outro andar, elevadores que estiverem subindo não podem
+// ir para um andar abaixo e vice-versa
 pub fn pode(e: Elevador, p: Elevador) -> Bool {
   case e {
     Parado ->
@@ -83,17 +90,13 @@ pub fn pode(e: Elevador, p: Elevador) -> Bool {
   }
 }
 
-// 12 A)
-pub type Megapixel {
-  Megapixel(altura: Int, largura: Int)
-}
-
 //13 A)
 pub type Figuras {
   Retangulo(altura: Float, largura: Float)
   Circulo(raio: Float)
 }
 
+// calcula a area de um retangulo ou um circulo
 pub fn descobre_figura(fig: Figuras) {
   case fig {
     Retangulo(_, _) -> fig.altura *. fig.largura
@@ -111,6 +114,7 @@ pub type Cinema {
   Idoso
 }
 
+// Verifica se a pessoa é jovem e tem uma carteirinha
 pub fn carteira(sala: Cinema) -> Option(Int) {
   case sala {
     Jovem(carteirinha) -> carteirinha
@@ -119,6 +123,8 @@ pub fn carteira(sala: Cinema) -> Option(Int) {
 }
 
 // 14 B)
+//  Verifica se um cinéfolo pode receber um desconto no cinema ou não, Criancas, idosos e jovem COM carteirinha 
+// podem, do contrario nao
 pub fn desconto(sala: Cinema) -> Bool {
   case sala {
     Crianca -> True
@@ -134,6 +140,7 @@ pub type Data {
   Data(dia: Int, mes: Int, ano: Int)
 }
 
+// inverte a data de string para int, colocando na estrutura
 pub fn inverte(data: String) -> Option(Data) {
   case string.split(data, "/") {
     [string_dia, string_mes, string_ano] -> {
@@ -147,6 +154,7 @@ pub fn inverte(data: String) -> Option(Data) {
 }
 
 // 15 B)
+//Verifica se é o ultimo dia do ano, caso for retorna true, se não for, false
 pub fn verifica_data(data: String) -> Bool {
   case string.split(data, "/") {
     [string_dia, string_mes, string_ano] -> {
@@ -164,6 +172,7 @@ pub fn verifica_data(data: String) -> Bool {
 }
 
 // 15 C)
+// Verifica se a data 1 vem antes da data 2, se sim, retorna true, caso não, false
 pub fn verifica_duas_datas(data1: Data, data2: Data) -> Bool {
   case data1.ano <= data2.ano {
     True ->
@@ -186,15 +195,17 @@ pub type Boletim {
   Boletim(nota1: Float, nota2: Float, nota3: Float, nota4: Float)
 }
 
-pub fn calcula_media(notas: Boletim) -> Bool {
+// calcula a media aritmetica simples de 4 notas de um aluno, alunos que tiraram 7 pra cima passam de ano, alunos 
+// abaixo de 7 e acima de 4 estão de exame, alunos que tiraram abaixo de 4 reprovaram
+pub fn calcula_media(notas: Boletim) -> String {
   let resultado =
     { notas.nota1 +. notas.nota2 +. notas.nota3 +. notas.nota4 } /. 4.0
   case resultado >=. 7.0 {
-    True -> True
+    True -> "Aprovado"
     False ->
       case resultado <. 7.0 && resultado <=. 4.0 {
-        True -> True
-        False -> False
+        True -> "Exame"
+        False -> "Reprovado"
       }
   }
 }
@@ -207,6 +218,9 @@ pub type Bandeira {
   Vermelhapat2
 }
 
+// Recebe o consumo kilowatt-hora e a bandeira tarifaria de uma pessoa, retornando o valor a ser pago da conta
+//bandeira verde não sofre acrecimos, bandeira amarela sofre 0.01874, vermelha patamar 1 sofre 0.03971 e
+// bandeira vermelha patamar 2 sofrem 0.09492 de acrecimos
 pub fn sistema_bandeira(kwh: Float, bandeira: Bandeira, tarifa: Float) -> Float {
   case bandeira {
     Verde -> kwh *. tarifa
@@ -222,7 +236,8 @@ pub type Jokenpo {
   Papel(nome: String)
   Pedra(nome: String)
 }
-
+// Determina quem ganhou numa disputa de jokenpo com base na jogada e no nome da pessoa, pedra ganha de tesoura
+// e perde pra papel, papel ganha e pedra e perde tesoura, tesoura ganha de papel perde pedra
 pub fn partida(jogador1: Jokenpo, jogador2: Jokenpo) -> String {
   case jogador1, jogador2 {
     Tesoura(_), Tesoura(_) -> "Empate!"
@@ -241,7 +256,9 @@ pub fn partida(jogador1: Jokenpo, jogador2: Jokenpo) -> String {
 pub type Time {
   Time(pontos: Int, vitorias: Int, saldo_gols: Int)
 }
-
+// Muda os pontos, vitoria e saldo de gols de um time de futebol com base na partida, recebe gols feitos e gols
+//sofridos na partida, vitórias contabilizam 3 pontos na pontuacao e soma 1 na vitoria, empates somam 1 ponto na
+// pobtuacao
 pub fn partidafut(time: Time, gols_feitos: Int, gols_sofridos: Int) -> Time {
   case gols_feitos > gols_sofridos {
     True ->
@@ -272,7 +289,8 @@ pub fn partidafut(time: Time, gols_feitos: Int, gols_sofridos: Int) -> Time {
 pub type Tempo {
   Tempo(horas: Int, minutos: Int, segundos: Int)
 }
-
+// Recebe a quantidade de segundoas que um APP ficou aberto, retornando quantos esses segundos são em horas
+// minutos e segundos
 pub fn transformador(segundos: Int) -> Tempo {
   let horas = segundos / 3600
   let resto = segundos % 3600
@@ -281,7 +299,8 @@ pub fn transformador(segundos: Int) -> Tempo {
   let tempo = Tempo(horas, minutos, segundos)
   tempo
 }
-
+// transforma o tempo que está em int em uma string, onde horas, minutos ou segundos zerados não são colocados
+// na string
 pub fn conversor(tempo: Tempo) {
   let str_horas = case tempo.horas != 0 {
     True -> int.to_string(tempo.horas) <> " horas,"
@@ -305,7 +324,8 @@ pub fn conversor(tempo: Tempo) {
 pub type Personagem {
   Personagem(linha: Int, coluna: Int, direcao: Direcao)
 }
-
+// verifica o máximo de casas que um personagem pode seguir com base na sua posicao no tabuleiro 10x10
+// e sua direcao, o personagem NAO PODE estourar o tamanho do tabuleiro
 pub fn max_casas(perso: Personagem) -> Int {
   case perso.direcao {
     Norte -> 10 - perso.linha
@@ -323,7 +343,8 @@ pub type Mouse {
 pub type Janela {
   Janela(topo: Int, esquerda: Int, largura: Int, altura: Int)
 }
-
+// verifica se o clique de um mouse foi em uma janela, onde recebe a largura e altura da janela, verificando se
+// se o clique do mouse está dentro dessa janela 
 pub fn clique_na_janela(janela: Janela, clique: Mouse) -> Bool {
   let coluna_jan =
     clique.coluna >= janela.esquerda
@@ -336,3 +357,130 @@ pub fn clique_na_janela(janela: Janela, clique: Mouse) -> Bool {
 }
 
 // 23)
+// reaprovetei as estruturas e etc do Personagem e da Direcao
+pub type Comando {
+  VirarEsq
+  VirarDir
+  Avancar(casas: Int)
+}
+
+
+pub fn executar_comando(p: Personagem, cmd: Comando) -> Personagem {
+  case cmd {
+    VirarEsq ->
+      case p.direcao {
+        Norte -> Personagem(..p, direcao: Oeste)
+        Oeste -> Personagem(..p, direcao: Sul)
+        Sul -> Personagem(..p, direcao: Leste)
+        Leste -> Personagem(..p, direcao: Norte)
+      }
+    VirarDir ->
+      case p.direcao {
+        Norte -> Personagem(..p, direcao: Leste)
+        Leste -> Personagem(..p, direcao: Sul)
+        Sul -> Personagem(..p, direcao: Oeste)
+        Oeste -> Personagem(..p, direcao: Norte)
+      }
+    Avancar(casas) ->
+      case p.direcao {
+        Norte -> {
+          let nova = p.linha + casas
+          let linha_final = case nova > 10 {
+            True -> 10
+            False -> nova
+          }
+          Personagem(..p, linha: linha_final)
+        }
+        Sul -> {
+          let nova = p.linha - casas
+          let linha_final = case nova < 1 {
+            True -> 1
+            False -> nova
+          }
+          Personagem(..p, linha: linha_final)
+        }
+        Leste -> {
+          let nova = p.coluna + casas
+          let coluna_final = case nova > 10 {
+            True -> 10
+            False -> nova
+          }
+          Personagem(..p, coluna: coluna_final)
+        }
+        Oeste -> {
+          let nova = p.coluna - casas
+          let coluna_final = case nova < 1 {
+            True -> 1
+            False -> nova
+          }
+          Personagem(..p, coluna: coluna_final)
+        }
+      }
+  }
+}
+
+// 24 
+pub type Pagamento {
+  Dinheiro
+  Pix
+  Boleto
+  CartaoAte3x
+  CartaoMais3x(parcelas: Int)
+}
+// Verifica a forma de pagament do cliente e a aplicação de um desconto, pagamentos no pix ou dinheiro dao 10%de 
+// desconto, no boleto 8%, no cartao mais de 3x, dão um acrescimo dew 12% por parcela
+pub fn forma_pagamento(pag: Pagamento, preco: Float) -> Float {
+  case pag {
+    Dinheiro -> preco *. 0.9
+    Pix -> preco *. 0.9
+    Boleto -> preco *. 0.92
+    CartaoMais3x(_parcelas) -> preco *. 1.12
+    CartaoAte3x -> preco
+  }
+}
+
+// 25
+
+pub type Embalagem {
+  Envelope(comprimento: Float, largura: Float)
+  Caixa(comprimento: Float, largura: Float, altura: Float)
+  Rolo(comprimento: Float, diametro: Float)
+}
+// verifica se uma embalagem segue a especificação, um envelope é valido se seu comprimento é no min16 cm e max 60,
+// largura de min 11 cm e max 60, altura de 27cm e 120 cm, uma caixa é valida se seu comprimento é de no min 15 cm e
+// max de 100 cm, largura de min 10 cm e max 100 cm, Altura (A) 1 cm 100 cm, Soma (C + L + A) 26 cm 200 cm,
+//rolos Comprimento (C) 18 cm 100 cm, Diâmetro (D) 5 cm 91 cm e Soma (C + 2D) 28 cm 200 cm
+pub fn embalagem_valida(embalagem: Embalagem) -> Bool {
+  case embalagem {
+    Envelope(comp, larg) -> {
+      let soma = comp +. larg
+      comp >=. 16.0
+      && comp <=. 60.0
+      && larg >=. 11.0
+      && larg <=. 60.0
+      && soma >=. 27.0
+      && soma <=. 120.0
+    }
+    Caixa(comp, larg, alt) -> {
+      let soma = comp +. larg +. alt
+      comp >=. 15.0
+      && comp <=. 100.0
+      && larg >=. 10.0
+      && larg <=. 100.0
+      && alt >=. 1.0
+      && alt <=. 100.0
+      && soma >=. 26.0
+      && soma <=. 200.0
+    }
+    Rolo(comp, diam) -> {
+      let soma = comp +. 2.0 *. diam
+      comp >=. 18.0
+      && comp <=. 100.0
+      && diam >=. 5.0
+      && diam <=. 91.0
+      && soma >=. 28.0
+      && soma <=. 200.0
+    }
+  }
+}
+
